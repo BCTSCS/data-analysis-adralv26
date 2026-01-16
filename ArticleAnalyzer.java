@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ArticleAnalyzer {
     private ArrayList<String> stopWords;
@@ -20,8 +19,10 @@ public class ArticleAnalyzer {
         Article a = analyzer.parseJson(line);
         
         System.out.println(a.toString());
-        String newarticle = analyzer.removeStopWords(a.toString());
-        System.out.println(newarticle);
+        String clean = analyzer.removeStopWords(a.getDescription());
+        a.setDescription(clean);
+        analyzer.addArticle(a);
+        System.out.println(a);
 
 
 
@@ -66,10 +67,12 @@ public class ArticleAnalyzer {
     public String removeStopWords(String text) {
         ArrayList<String> stopwords = FileOperator.getStringList("./stopwords.txt");
 
-        String re = stopwords.stream().collect(Collectors.joining("|", "\\b(", ")\\b\\s?"));
-
-        String result = text.toLowerCase().replaceAll(re, "");
-        return result;
+        for (String word: stopWords){
+        text = text.replaceAll("\\b"+word+" \\b", "");
+        }
+        return text;
     }
- 
+    public void addArticle(Article article) {
+        articles.add(article);
+    }
 }
