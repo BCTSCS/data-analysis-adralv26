@@ -13,16 +13,16 @@ public class ArticleAnalyzer {
     }
     public static void main(String[] args) {
         ArticleAnalyzer analyzer = new ArticleAnalyzer();
-        ArrayList<String> content = FileOperator.getStringList("./1-15/data.txt");
+        ArrayList<String> content = FileOperator.getStringList("./1-22/sentiments.txt");
 
         String line = content.get(0);
         Article a = analyzer.parseJson(line);
         
-        System.out.println(a.toString());
+        System.out.println("Original description: "+a.getDescription());
         String clean = analyzer.removeStopWords(a.getDescription());
         a.setDescription(clean);
         analyzer.addArticle(a);
-        System.out.println(a);
+        System.out.println("Clean description: "+ a.getDescription());
 
 
 
@@ -32,6 +32,8 @@ public class ArticleAnalyzer {
     }
     public Article parseJson(String jsonLine) {
         Article result;
+        Pattern re Pattern.compile("([A-Za-z0-9]+),((-?\\d.?\\d+)|(-?\\d))");
+
         Pattern l = Pattern.compile("\"link\":\\s*\"([^\"]+)\"");
         Matcher lm =l.matcher(jsonLine);
         String link = lm.find() ? lm.group(1) : "";
