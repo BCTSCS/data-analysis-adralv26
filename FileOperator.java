@@ -73,6 +73,12 @@ public class FileOperator {
         return tempList;
     }
 
-
+    public static void main(String[] args) {
+        FileOperator fileOperator = new FileOperator();
+        ArrayList<String> teamList = fileOperator.getStringList("userStory/teams.txt");
+        for (String team : teamList) {
+            System.out.println(team);
+        }
+    }
     
 }
